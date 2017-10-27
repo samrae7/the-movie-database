@@ -1,13 +1,15 @@
 import * as React from 'react';
 import './App.css';
 import { TmdbApi } from 'tmdb-typescript-api';
+const API_KEY = process.env.TMDB_API_KEY_V3 || '';
+
+console.log('api', API_KEY);
 
 const logo = require('./logo.svg');
 
 class App extends React.Component {
-
   componentDidMount() {
-    const api: TmdbApi = new TmdbApi('7307b2875e457f24a9726c999e4c6a34');
+    const api: TmdbApi = new TmdbApi(API_KEY);
 
     api.search.movies('Pulp Fiction').subscribe(movies => {
       let movie = movies.results[0];
