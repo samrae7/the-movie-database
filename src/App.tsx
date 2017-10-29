@@ -1,41 +1,32 @@
 import * as React from 'react'
 import './App.css'
-import { Context, SearchResult, Movie } from 'tmdb-typescript-api'
-import { ApiVars } from './ApiVars'
-import { SearchService } from './SearchService/SearchService';
-import { MovieCard } from './MovieCard/MovieCard';
-
-interface IAppProps {
-  // TODO maybe don;t need these if searchService and url are factored out?
-  apiVars: ApiVars
-}
+import { SearchResult, Movie } from 'tmdb-typescript-api'
+import { SearchService } from './SearchService/SearchService'
+import { MovieCard } from './MovieCard/MovieCard'
 
 interface IAppState {
   results: Movie[]
   apiError: boolean
 }
 
-class App extends React.Component<IAppProps, IAppState> {
+class App extends React.Component<{}, IAppState> {
 
   baseImageUrl: string
   posterSize: string
   searchService: SearchService
 
-  constructor (props: IAppProps) {
-    super(props)
+  constructor () {
+    super()
     this.state = {
       results: [],
       apiError: false
     }
     this.searchService = new SearchService()
-    this.baseImageUrl = props.apiVars.baseImageUrl
-    this.posterSize = props.apiVars.posterSizes[2]
   }
 
   componentDidMount () {
     this.searchService.getResults()
       .subscribe((m: SearchResult<Movie>) => {
-        console.log(m.results)
         this.setState({
           results: m.results
         })
@@ -53,8 +44,6 @@ class App extends React.Component<IAppProps, IAppState> {
 
   render () {
     // TODO extract out movie list as separate component and return message if zero results
-    // add submit button
-    console.log('baseurl', Context)
     return (
       <div className='App'>
         <div className='App-header'>
@@ -68,8 +57,6 @@ class App extends React.Component<IAppProps, IAppState> {
             (<MovieCard
               key={result.id}
               {...result}
-              baseImageUrl={this.baseImageUrl}
-              posterSize={this.posterSize}
              />)
             )
           }

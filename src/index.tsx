@@ -10,7 +10,7 @@ getApiVars()
     ReactDOM.render(
       // TODO look at wrapping App component in a HOC to get apiVars instead of thw way it is here (wrapped in promise chain)
       // also add catch block
-      <App apiVars={apiVars}/>,
+      <App />,
       document.getElementById('root') as HTMLElement
     )
     registerServiceWorker()
