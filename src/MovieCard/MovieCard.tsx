@@ -1,6 +1,6 @@
 import * as React from 'react'
 import { Movie } from 'tmdb-typescript-api'
-import { PosterHelper } from '../posterHelper'
+import { PosterHelper } from '../ImagesService'
 
 //TODO resize placeholder image
 const placeholder = require('./noposter.jpg')
