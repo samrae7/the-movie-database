@@ -1,0 +1,45 @@
+.movie-card {
+  background-color: lightblue;
+  display: grid;
+  grid-template-columns: 1fr 154px;
+  color: black;
+  text-align: left;
+  overflow: hidden;
+  margin: 1rem
+}
+
+.movie-card h3 {
+  margin: 0;
+  padding: 0.5rem
+}
+
+.movie-card p {
+  padding: 0 0.5rem;
+  margin: 0 0 0.5rem 0;
+}
+
+.movie-card a {
+  color: blue;
+  font-size: 0.8rem;
+}
+
+.loader-container {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 220px;
+}
+
+.loader {
+    border: 5px solid #f3f3f3; /* Light grey */
+    border-top: 5px solid #555; /* Grey */
+    border-radius: 50%;
+    width: 50px;
+    height: 50px;
+    animation: spin 1s linear infinite;
+}
+
+@keyframes spin {
+    0% { transform: rotate(0deg); }
+    100% { transform: rotate(360deg); }
+}

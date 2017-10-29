@@ -2,11 +2,13 @@ import * as React from 'react'
 import './App.css'
 import { SearchResult, Movie } from 'tmdb-typescript-api'
 import { SearchService } from '../SearchService/SearchService'
-import { MovieCard } from '../MovieCard/MovieCard'
+import { MovieResults } from '../MovieResults/MovieResults';
 
 interface IAppState {
   results: Movie[]
   apiError: boolean
+  loading: boolean
+  searchTerm: string
 }
 
 class App extends React.Component<{}, IAppState> {
@@ -18,48 +20,55 @@ class App extends React.Component<{}, IAppState> {
     super()
     this.state = {
       results: [],
-      apiError: false
+      apiError: false,
+      loading: false,
+      searchTerm: ''
     }
     this.searchService = new SearchService()
   }
 
   componentDidMount () {
     this.searchService.getResults()
-      .subscribe((m: SearchResult<Movie>) => {
-        this.setState({
-          results: m.results
-        })
-      },
-      (error => this.setState({apiError: true})))
+      .subscribe(
+        (m: SearchResult<Movie>) => {
+          this.setState({
+            results: m.results,
+            loading: false
+          })
+        },
+        error => this.setState({apiError: true})
+      )
   }
 
   search = (event: React.ChangeEvent<HTMLInputElement>) => {
-    if (event.target.value.length < 2) {
-      this.setState({results: []})
-    } else {
+    const searchTerm = event.target.value
+    this.setState({searchTerm})
+    if (searchTerm.length >= 2) {
+      this.setState({loading: true})
       this.searchService.search(event.target.value.trim())
+    } else {
+      this.setState({
+        results: [],
+        loading: false
+      })
     }
   }
 
   render () {
-    // TODO add spinner for loading image
     return (
       <div className='App'>
         <div className='App-header'>
           <h2>Search the Movie Database</h2>
           <input type='text' onChange={this.search}></input>
         </div>
-        {this.state.apiError && <p>Something went wrong fetching data</p>}
-        {this.state.results.length > 0 ?
-          <ul>
-            {this.state.results.map((result: Movie) => 
-              <MovieCard
-                key={result.id}
-                {...result}
-              />)
-            }
-          </ul> :
-          <p>Type in the box to find movies.</p>
+        {this.state.searchTerm.length ? 
+          <MovieResults
+            results={this.state.results}
+            error={this.state.apiError}
+            loading={this.state.loading}
+          />
+          :
+          <p>Type in the search box to find movies</p>
         }
       </div>
     )
