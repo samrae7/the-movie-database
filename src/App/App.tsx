@@ -59,7 +59,7 @@ class App extends React.Component<{}, IAppState> {
               />)
             }
           </ul> :
-          <p>No results. Type in the box to find movies.</p>
+          <p>Type in the box to find movies.</p>
         }
       </div>
     )

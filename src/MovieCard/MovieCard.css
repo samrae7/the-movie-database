@@ -1,0 +1,19 @@
+.movie-card {
+  background-color: lightblue;
+  display: grid;
+  grid-template-columns: 1fr 154px;
+  color: black;
+  overflow: hidden;
+  margin: 1rem 
+}
+
+.movie-card h3 {
+  margin: 0;
+  padding: 0.5rem
+}
+
+.movie-card p {
+  text-align: left;
+  padding: 0 0.5rem;
+  margin: 0 0 0.5rem 0;
+}
