@@ -1,8 +1,8 @@
 import * as React from 'react'
 import './App.css'
 import { SearchResult, Movie } from 'tmdb-typescript-api'
-import { SearchService } from './SearchService/SearchService'
-import { MovieCard } from './MovieCard/MovieCard'
+import { SearchService } from '../SearchService/SearchService'
+import { MovieCard } from '../MovieCard/MovieCard'
 
 interface IAppState {
   results: Movie[]
@@ -10,7 +10,6 @@ interface IAppState {
 }
 
 class App extends React.Component<{}, IAppState> {
-
   baseImageUrl: string
   posterSize: string
   searchService: SearchService
@@ -43,24 +42,25 @@ class App extends React.Component<{}, IAppState> {
   }
 
   render () {
-    // TODO extract out movie list as separate component and return message if zero results
+    // TODO add spinner for loading image
     return (
       <div className='App'>
         <div className='App-header'>
           <h2>Search the Movie Database</h2>
           <input type='text' onChange={this.search}></input>
         </div>
-        {this.state.apiError ? 
-        <p>Something went wrong fetching data</p> :
-        <ul>
-          {this.state.results.map((result: Movie) => 
-            (<MovieCard
-              key={result.id}
-              {...result}
-             />)
-            )
-          }
-        </ul>}
+        {this.state.apiError && <p>Something went wrong fetching data</p>}
+        {this.state.results.length > 0 ?
+          <ul>
+            {this.state.results.map((result: Movie) => 
+              <MovieCard
+                key={result.id}
+                {...result}
+              />)
+            }
+          </ul> :
+          <p>No results. Type in the box to find movies.</p>
+        }
       </div>
     )
   }

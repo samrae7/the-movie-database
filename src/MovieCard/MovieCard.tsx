@@ -1,21 +1,34 @@
 import * as React from 'react'
 import { Movie } from 'tmdb-typescript-api'
-import { PosterHelper } from '../ImagesService'
+import imageService from '../ImagesService'
 
 //TODO resize placeholder image
 const placeholder = require('./noposter.jpg')
-const posterHelper = new PosterHelper()
 
-// TODO default poster image when poster_path is null ( don't construct url in same way)
-export const MovieCard: React.StatelessComponent<Movie> = (props: Movie): JSX.Element => {
-  console.log('poster', props.poster_path)
-  return (
-    <div key={props.id}>
-      <li>{props.title}</li>
-      {props.poster_path ?
-        <img src={posterHelper.getPosterUrl(props.poster_path)} alt={props.title} /> :
-        <img src={placeholder} alt={props.title} />
-      }
-    </div>
-  )
+// TODO look at sorting out props
+export class MovieCard extends React.Component<Movie, {imageLoading: boolean}> {
+  constructor() {
+    super()
+    this.state = {imageLoading: true}
+  }
+
+  onLoad = () => {
+    this.setState({
+      imageLoading: false
+    })
+  }
+
+  render () {
+  console.log('poster', this.props.poster_path)
+    return (
+      <div key={this.props.id}>
+        <li>{this.props.title}</li>
+        {this.props.poster_path && this.state.imageLoading && <p>Loading...</p>}
+        {this.props.poster_path ?
+          <img onLoad={this.onLoad} src={imageService.getPosterUrl(this.props.poster_path)} alt={this.props.title} /> :
+          <img src={placeholder} alt={this.props.title} />
+        }
+      </div>
+    )
+  }
 }

@@ -18,8 +18,9 @@ export class SearchService {
 
   getResults() {
     return this.searchTerm
-      .throttleTime(200)
       .distinctUntilChanged()
       .switchMap((term: string) => this.api.search.movies(term))
   }
 }
+
+export default new SearchService()

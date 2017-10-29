@@ -1,7 +1,6 @@
 import { getApiVars } from "./ApiVars";
 
-// TODO rename PosterService ?
-export class PosterHelper {
+export class ImageService {
   baseImageUrl: string
   posterSize: string
 
@@ -12,7 +11,7 @@ export class PosterHelper {
     getApiVars()
       .then((vars) => {
         this.baseImageUrl = vars.baseImageUrl
-        this.posterSize = vars.posterSizes[2]
+        this.posterSize = vars.posterSizes[1]
       })
   }
 
@@ -21,3 +20,5 @@ export class PosterHelper {
     return `${this.baseImageUrl}${this.posterSize}${posterPath}`
   }
 }
+
+export default new ImageService()
