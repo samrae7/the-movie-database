@@ -1,24 +1,44 @@
-import { getApiVars } from "./ApiVars";
+import { Context } from 'tmdb-typescript-api'
+
+export interface Config {
+  change_keys: string[],
+  images: ImageVars
+}
+
+export interface ImageVars {
+  backdrop_sizes: string[]
+  base_url: string
+  logo_sizes: string[]
+  poster_sizes: string[]
+  profiles_sizes: string[]
+  secure_base_url: string
+  still_sizes: string[]
+}
 
 export class ImageService {
+  private apiKey: string = process.env.TMDB_API_KEY_V3 || ''
+  private baseUrlApi: string = new Context().baseUrl
   baseImageUrl: string
   posterSize: string
 
   constructor() {
-    // TODO decide whether to put all fetching in here OR to rewrite getApiVars as a service
-    // or neither
-    // also look up how make all services singletons
-    getApiVars()
-      .then((vars) => {
-        this.baseImageUrl = vars.baseImageUrl
-        this.posterSize = vars.posterSizes[1]
+    this.fetchConfigurationVars()
+      .then((config: Config) => {
+        this.baseImageUrl = config.images.secure_base_url
+        this.posterSize = config.images.poster_sizes[1]
       })
   }
 
-  // TODO rename getSrc ?
   getPosterUrl(posterPath: string) {
     return `${this.baseImageUrl}${this.posterSize}${posterPath}`
   }
+
+  fetchConfigurationVars = (): Promise<Config> => {
+  return fetch(`${this.baseUrlApi}/configuration?api_key=${this.apiKey}`)
+    .then((response: Response) => {
+      return response.json()
+    })
+}
 }
 
 export default new ImageService()
