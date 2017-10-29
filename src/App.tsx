@@ -1,10 +1,12 @@
 import * as React from 'react'
 import './App.css'
-import { Context, TmdbApi, SearchResult, Movie } from 'tmdb-typescript-api'
-import { Subject } from 'rxjs'
+import { Context, SearchResult, Movie } from 'tmdb-typescript-api'
 import { ApiVars } from './ApiVars'
+import { SearchService } from './SearchService/SearchService';
+import { MovieCard } from './MovieCard/MovieCard';
 
 interface IAppProps {
+  // TODO maybe don;t need these if searchService and url are factored out?
   apiVars: ApiVars
 }
 
@@ -15,10 +17,9 @@ interface IAppState {
 
 class App extends React.Component<IAppProps, IAppState> {
 
-  searchTerm: Subject<{}>
-  api: TmdbApi
   baseImageUrl: string
   posterSize: string
+  searchService: SearchService
 
   constructor (props: IAppProps) {
     super(props)
@@ -26,17 +27,13 @@ class App extends React.Component<IAppProps, IAppState> {
       results: [],
       apiError: false
     }
-    this.searchTerm = new Subject()
-    this.api = new TmdbApi(props.apiVars.apiKey)
+    this.searchService = new SearchService()
     this.baseImageUrl = props.apiVars.baseImageUrl
     this.posterSize = props.apiVars.posterSizes[2]
   }
 
   componentDidMount () {
-    this.searchTerm
-      .throttleTime(400)
-      // TODO extract out as search service ?
-      .switchMap((term: string) => this.api.search.movies(term))
+    this.searchService.getResults()
       .subscribe((m: SearchResult<Movie>) => {
         console.log(m.results)
         this.setState({
@@ -50,11 +47,13 @@ class App extends React.Component<IAppProps, IAppState> {
     if (event.target.value.length < 2) {
       this.setState({results: []})
     } else {
-      this.searchTerm.next(event.target.value)
+      this.searchService.search(event.target.value.trim())
     }
   }
 
   render () {
+    // TODO extract out movie list as separate component and return message if zero results
+    // add submit button
     console.log('baseurl', Context)
     return (
       <div className='App'>
@@ -65,30 +64,19 @@ class App extends React.Component<IAppProps, IAppState> {
         {this.state.apiError ? 
         <p>Something went wrong fetching data</p> :
         <ul>
-          {this.state.results.map((result: Movie) => {
-            return (<MovieCard
-                    key={result.id}
-                    {...result}
-                    baseImageUrl={this.baseImageUrl}
-                    posterSize={this.posterSize}
-                  />)
-            })
+          {this.state.results.map((result: Movie) => 
+            (<MovieCard
+              key={result.id}
+              {...result}
+              baseImageUrl={this.baseImageUrl}
+              posterSize={this.posterSize}
+             />)
+            )
           }
         </ul>}
       </div>
     )
   }
-}
-
-// TODO extract out method to get image url
-// TODO default poster image when poster_path is null ( don't construct url in same way)
-export const MovieCard = (props: Movie & {baseImageUrl: string, posterSize: string}) => {
-  return (
-    <div key={props.id}>
-      <li>{props.title}</li>
-      <img src={`${props.baseImageUrl}${props.posterSize}${props.poster_path}`} alt={props.title} />
-    </div>
-  )
 }
 
 export default App
