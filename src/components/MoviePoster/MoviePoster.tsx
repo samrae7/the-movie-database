@@ -5,7 +5,7 @@ import './MoviePoster.css'
 export interface IMoviePosterProps {
   imageService: ImageService
   placeholderPath: string
-  posterPath: string
+  posterPath: string | null
   title: string
   imageLoading: boolean
   onLoad: () => void
@@ -16,8 +16,8 @@ export const MoviePoster: React.StatelessComponent<IMoviePosterProps> = (props: 
     case !!props.posterPath:
       return (
         <div className='poster-container'>
-          <img onLoad={props.onLoad} src={props.imageService.getPosterUrl(props.posterPath)} alt={props.title} />
-           {props.imageLoading && <div className='spinner'></div>}
+          {props.posterPath && <img onLoad={props.onLoad} src={props.imageService.getPosterUrl(props.posterPath)} alt={props.title} />}
+          {props.imageLoading && <div className='spinner'></div>}
         </div>
       )
     default:

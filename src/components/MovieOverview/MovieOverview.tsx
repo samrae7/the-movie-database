@@ -9,7 +9,7 @@ export interface IMovieOverviewProps {
 
 export const MovieOverview: React.StatelessComponent<IMovieOverviewProps> = (props: IMovieOverviewProps) => {
   return (
-    <div>
+    <div className='movie-overview'>
       <h3>{props.title}</h3>
       { props.overview.length <= 170 || props.readMore ?
         <p>
