@@ -1,20 +1,23 @@
 import * as React from 'react'
 import './App.css'
 import { SearchResult, Movie } from 'tmdb-typescript-api'
-import { SearchService } from '../SearchService/SearchService'
-import { MovieResults } from '../MovieResults/MovieResults';
+import { SearchService } from '../../services/SearchService/SearchService'
+import { MovieResults } from '../MovieResults/MovieResults'
 
-interface IAppState {
+export interface IAppProps {
+  searchService: SearchService
+}
+
+export interface IAppState {
   results: Movie[]
   apiError: boolean
   loading: boolean
   searchTerm: string
 }
 
-class App extends React.Component<{}, IAppState> {
+class App extends React.Component<IAppProps, IAppState> {
   baseImageUrl: string
   posterSize: string
-  searchService: SearchService
 
   constructor () {
     super()
@@ -24,11 +27,11 @@ class App extends React.Component<{}, IAppState> {
       loading: false,
       searchTerm: ''
     }
-    this.searchService = new SearchService()
+    this.search = this.search.bind(this)
   }
 
   componentDidMount () {
-    this.searchService.getResults()
+    this.props.searchService.getResults()
       .subscribe(
         (m: SearchResult<Movie>) => {
           this.setState({
@@ -40,12 +43,11 @@ class App extends React.Component<{}, IAppState> {
       )
   }
 
-  search = (event: React.ChangeEvent<HTMLInputElement>) => {
-    const searchTerm = event.target.value
+  search (searchTerm: string) {
     this.setState({searchTerm})
     if (searchTerm.length >= 2) {
       this.setState({loading: true})
-      this.searchService.search(event.target.value.trim())
+      this.props.searchService.search(searchTerm.trim())
     } else {
       this.setState({
         results: [],
@@ -56,19 +58,22 @@ class App extends React.Component<{}, IAppState> {
 
   render () {
     return (
-      <div className='App'>
-        <div className='App-header'>
+      <div className='app'>
+        <div className='app-header'>
           <h2>Search the Movie Database</h2>
-          <input type='text' onChange={this.search}></input>
+          <input
+            type='text'
+            onChange={(e: React.ChangeEvent<HTMLInputElement>) => this.search(e.target.value)}>
+          </input>
         </div>
         {this.state.searchTerm.length ? 
           <MovieResults
             results={this.state.results}
-            error={this.state.apiError}
+            apiError={this.state.apiError}
             loading={this.state.loading}
           />
           :
-          <p>Type in the search box to find movies</p>
+          <p className='call-to-action'>Type in the search box to find movies</p>
         }
       </div>
     )

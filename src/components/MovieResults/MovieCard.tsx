@@ -1,6 +1,6 @@
 import * as React from 'react'
 import { Movie } from 'tmdb-typescript-api'
-import imageService from '../ImageService/ImageService'
+import imageService from '../../services/ImageService/ImageService'
 import './MovieCard.css'
 
 const placeholder = require('./noposter.jpg')

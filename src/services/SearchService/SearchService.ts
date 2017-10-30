@@ -1,5 +1,6 @@
 import { Subject } from 'rxjs'
-import { TmdbApi } from 'tmdb-typescript-api'
+import { TmdbApi, SearchResult, Movie } from 'tmdb-typescript-api'
+import { Observable } from 'rxjs/Observable';
 
 const apiKey = process.env.TMDB_API_KEY_V3 || ''
 
@@ -16,7 +17,7 @@ export class SearchService {
     this.searchTerm.next(term) 
   }
 
-  getResults() {
+  getResults (): Observable<SearchResult<Movie>> {
     return this.searchTerm
       .distinctUntilChanged()
       .switchMap((term: string) => this.api.search.movies(term))
