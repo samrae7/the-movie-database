@@ -4,13 +4,14 @@ import { MoviePoster, IMoviePosterProps } from './MoviePoster'
 import { ImageService } from '../../services/ImageService/ImageService'
 
 const mockImageService: ImageService = {
-    baseImageUrl: 'http://baseImageUrl',
-    posterSize: 'w555',
-    getPosterUrl: jest.fn().mockReturnValue('http://baseImageUrl/w55'),
-    apiKey: 'jjj',
-    baseUrlApi: 'https://api.v3/',
-    fetchConfigurationVars: jest.fn()
-  }
+  baseImageUrl: 'http://baseImageUrl',
+  posterSize: 'w555',
+  getPosterUrl: jest.fn().mockReturnValue('http://baseImageUrl/w55'),
+  apiKey: 'jjj',
+  baseUrlApi: 'https://api.v3/',
+  fetchConfigurationVars: jest.fn()
+}
+
 const placeholderPath = '/loremipsum.jpg'
 
 const initialProps: IMoviePosterProps = {
@@ -51,6 +52,12 @@ describe('MoviePoster component render image loaded', () => {
     expect(component.find('.poster-container').exists()).toBe(true)
   })
 
+  it('renders img with correct src attribute', () => {
+    const src = mockImageService.getPosterUrl(initialProps.posterPath!)
+    expect(component.find('img').exists()).toBe(true)
+    expect(component.find('img').prop('src')).toBe(src)
+  })
+
   it('does NOT render spinner', () => {
     expect(component.find('.spinner').exists()).toBe(false)
   })
@@ -69,6 +76,21 @@ describe('MoviePoster component render with no posterPath', () => {
     expect(component.find(`img[src='${placeholderPath}']`).exists()).toBe(true)
   })
 })
+
+describe('MoviePoster component calls onLoad when image loads', () => {
+  let onLoadSpy: jest.SpyInstance
+
+  beforeEach(() => {
+    onLoadSpy = jest.spyOn(initialProps, 'onLoad')
+    component = shallowRenderComponent({...initialProps})
+  })
+
+  it('renders placeholder', () => {
+    component.find('img').simulate('load')
+    expect(onLoadSpy).toHaveBeenCalled()
+  })
+})
+
 
 
 
