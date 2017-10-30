@@ -39,7 +39,10 @@ class App extends React.Component<IAppProps, IAppState> {
             loading: false
           })
         },
-        error => this.setState({apiError: true})
+        error => {
+          console.log('error featching movies', error)
+          this.setState({apiError: true})
+        }
       )
   }
 

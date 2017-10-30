@@ -8,9 +8,9 @@ export class SearchService {
   searchTerm: Subject<string>
   api: TmdbApi
 
-  constructor () {
+  constructor (api: TmdbApi) {
     this.searchTerm = new Subject()
-    this.api = new TmdbApi(apiKey)
+    this.api = api
   }
 
   search (term: string) {
@@ -24,4 +24,4 @@ export class SearchService {
   }
 }
 
-export default new SearchService()
+export default new SearchService(new TmdbApi(apiKey))
