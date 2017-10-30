@@ -19,10 +19,14 @@ export const MovieResults: React.StatelessComponent<IMovieResultsProps> = (props
     return (
       <ul className='movie-list'>
         {props.results.map((result: Movie) => 
+        // TODO check if necessary to padd key here as li has id prop as key anyway
           <MovieCard
             key={result.id}
-              {...result}
-            />
+            id={result.id}
+            title={result.title}
+            overview={result.overview}
+            posterPath={result.poster_path}
+          />
           )
         }
       </ul>

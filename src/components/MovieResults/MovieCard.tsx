@@ -1,16 +1,24 @@
 import * as React from 'react'
-import { Movie } from 'tmdb-typescript-api'
 import imageService from '../../services/ImageService/ImageService'
 import './MovieCard.css'
+import { MovieOverview } from './MovieOverview'
+import { MoviePoster } from './MoviePoster'
 
 const placeholder = require('./noposter.jpg')
+
+export interface IMovieCardProps {
+  id: number,
+  title: string,
+  posterPath: string,
+  overview: string
+}
 
 export interface IMovieCardState {
   imageLoading: boolean,
   readMore: boolean
 }
 
-export class MovieCard extends React.Component<Movie, IMovieCardState> {
+export class MovieCard extends React.Component<IMovieCardProps, IMovieCardState> {
   constructor() {
     super()
     this.state = {
@@ -27,42 +35,29 @@ export class MovieCard extends React.Component<Movie, IMovieCardState> {
 
   toggleReadMore = () => {
     const readMore = !this.state.readMore
-    this.setState({readMore})
+    this.setState({ readMore })
   }
 
-  render () {
-
-    // TODO factor out overview, poster and spinner
+  render() {
     return (
       <li className='movie-card' key={this.props.id}>
-        <div>
-          <h3>{this.props.title}</h3>
-          {
-            this.props.overview.length <= 170 || this.state.readMore ?
-              <p>
-                {this.props.overview}
-                {this.props.overview.length > 170 &&
-                  <a onClick={this.toggleReadMore}> Less</a>
-                }
-              </p>
-              :
-              <p>
-                {this.props.overview.slice(0, 170)}
-                <a onClick={this.toggleReadMore}>... More</a>
-              </p>
-          }
-      </div>
-        {this.props.poster_path &&
-        this.state.imageLoading &&
-          <div className='loader-container'>
-            <div className='loader'></div>
-          </div>
-        }
-        {this.props.poster_path ?
-          <img onLoad={this.onLoad} src={imageService.getPosterUrl(this.props.poster_path)} alt={this.props.title} /> :
-          <img src={placeholder} alt={this.props.title} />
-        }
+        <MovieOverview
+          overview={this.props.overview}
+          toggleReadMore={this.toggleReadMore}
+          readMore={this.state.readMore}
+          title={this.props.title}
+        />
+        <MoviePoster
+          imageService={imageService}
+          placeholderPath={placeholder}
+          posterPath={this.props.posterPath}
+          onLoad={this.onLoad}
+          imageLoading={this.state.imageLoading}
+          title={this.props.title}
+        />
       </li>
     )
   }
 }
+
+

@@ -23,11 +23,11 @@
   font-size: 0.8rem;
 }
 
-.loader-container {
+.poster-container {
   display: flex;
   align-items: center;
   justify-content: center;
-  height: 220px;
+  min-height: 220px;
 }
 
 .loader {
