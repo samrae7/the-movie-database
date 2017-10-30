@@ -1,11 +1,11 @@
 import { Context } from 'tmdb-typescript-api'
 
-export interface Config {
+interface Config {
   change_keys: string[],
   images: ImageVars
 }
 
-export interface ImageVars {
+interface ImageVars {
   backdrop_sizes: string[]
   base_url: string
   logo_sizes: string[]
