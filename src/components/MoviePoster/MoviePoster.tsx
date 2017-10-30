@@ -1,5 +1,6 @@
 import * as React from 'react'
-import { ImageService } from '../../services/ImageService/ImageService';
+import { ImageService } from '../../services/ImageService/ImageService'
+import './MoviePoster.css'
 
 export interface IMoviePosterProps {
   imageService: ImageService
@@ -16,7 +17,7 @@ export const MoviePoster: React.StatelessComponent<IMoviePosterProps> = (props: 
       return (
         <div className='poster-container'>
           <img onLoad={props.onLoad} src={props.imageService.getPosterUrl(props.posterPath)} alt={props.title} />
-           {props.imageLoading && <div className='loader'></div>}
+           {props.imageLoading && <div className='spinner'></div>}
         </div>
       )
     default:

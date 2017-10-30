@@ -1,12 +1,9 @@
 import * as React from 'react'
-import * as Enzyme from 'enzyme'
-import * as Adapter from 'enzyme-adapter-react-16'
+import Enzyme from '../../setupTests'
 import App, { IAppState, IAppProps } from './App'
 import { Subject } from 'rxjs'
 import { TmdbApi, SearchResult, Movie } from 'tmdb-typescript-api'
 import { Observable } from 'rxjs/Observable'
-
-Enzyme.configure({ adapter: new Adapter() })
 
 const apiKey = 'bar'
 

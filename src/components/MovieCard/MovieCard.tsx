@@ -1,8 +1,8 @@
 import * as React from 'react'
 import imageService from '../../services/ImageService/ImageService'
 import './MovieCard.css'
-import { MovieOverview } from './MovieOverview'
-import { MoviePoster } from './MoviePoster'
+import { MovieOverview } from '../MovieOverview/MovieOverview'
+import { MoviePoster } from '../MoviePoster/MoviePoster'
 
 const placeholder = require('./noposter.jpg')
 
@@ -28,9 +28,7 @@ export class MovieCard extends React.Component<IMovieCardProps, IMovieCardState>
   }
 
   onLoad = () => {
-    this.setState({
-      imageLoading: false
-    })
+    this.setState({imageLoading: false})
   }
 
   toggleReadMore = () => {

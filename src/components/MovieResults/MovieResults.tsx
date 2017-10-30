@@ -1,6 +1,6 @@
 import * as React from 'react'
 import { Movie } from 'tmdb-typescript-api'
-import { MovieCard } from './MovieCard'
+import { MovieCard } from '../MovieCard/MovieCard'
 import './MovieResults.css'
 
 export interface IMovieResultsProps {

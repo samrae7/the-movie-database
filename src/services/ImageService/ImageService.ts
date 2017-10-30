@@ -16,8 +16,8 @@ interface ImageVars {
 }
 
 export class ImageService {
-  private apiKey: string = process.env.TMDB_API_KEY_V3 || ''
-  private baseUrlApi: string = new Context().baseUrl
+  apiKey: string = process.env.TMDB_API_KEY_V3 || ''
+  baseUrlApi: string = new Context().baseUrl
   baseImageUrl: string
   posterSize: string
 
@@ -26,6 +26,7 @@ export class ImageService {
       .then((config: Config) => {
         this.baseImageUrl = config.images.secure_base_url
         this.posterSize = config.images.poster_sizes[1]
+        this.getPosterUrl = this.getPosterUrl.bind(this) 
       })
   }
 
