@@ -3,9 +3,8 @@ import * as Enzyme from 'enzyme'
 import * as Adapter from 'enzyme-adapter-react-16'
 import App, { IAppState, IAppProps } from './App'
 import { Subject } from 'rxjs'
-import { TmdbApi, SearchResult, Movie } from 'tmdb-typescript-api';
+import { TmdbApi, SearchResult, Movie } from 'tmdb-typescript-api'
 import { Observable } from 'rxjs/Observable'
-import { SearchService } from '../../services/SearchService/SearchService';
 
 Enzyme.configure({ adapter: new Adapter() })
 
