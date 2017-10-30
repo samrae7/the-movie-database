@@ -17,9 +17,9 @@ export const MovieResults: React.StatelessComponent<IMovieResultsProps> = (props
     return <p>Fetching movies...</p>
   } else if (props.results.length > 0) {
     return (
-      <ul className='movie-list'>
+      <ul className='movie-results'>
         {props.results.map((result: Movie) => 
-        // TODO check if necessary to padd key here as li has id prop as key anyway
+        // TODO check if necessary to add key here as li has id prop as key anyway
           <MovieCard
             key={result.id}
             id={result.id}
