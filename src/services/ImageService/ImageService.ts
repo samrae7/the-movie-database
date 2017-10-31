@@ -1,45 +1,33 @@
-import { Context } from 'tmdb-typescript-api'
-
-interface Config {
-  change_keys: string[],
-  images: ImageVars
-}
-
-interface ImageVars {
-  backdrop_sizes: string[]
-  base_url: string
-  logo_sizes: string[]
-  poster_sizes: string[]
-  profiles_sizes: string[]
-  secure_base_url: string
-  still_sizes: string[]
-}
-
 export class ImageService {
-  apiKey: string = process.env.TMDB_API_KEY_V3 || ''
-  baseUrlApi: string = new Context().baseUrl
   baseImageUrl: string
   posterSize: string
 
-  constructor() {
-    this.fetchConfigurationVars()
-      .then((config: Config) => {
-        this.baseImageUrl = config.images.secure_base_url
-        this.posterSize = config.images.poster_sizes[1]
-        this.getPosterUrl = this.getPosterUrl.bind(this) 
-      })
+  constructor (
+    baseImageUrl = 'https://image.tmdb.org/t/p/',
+    posterSize = 'w154'
+  ) {
+    this.baseImageUrl = baseImageUrl
+    this.posterSize = posterSize
+    this.getPosterUrl = this.getPosterUrl.bind(this)
   }
 
+  // example: https://image.tmdb.org/t/p/w154/6u1fYtxG5eqjhtCPDx04pJphQRW.jpg
   getPosterUrl(posterPath: string) {
     return `${this.baseImageUrl}${this.posterSize}${posterPath}`
   }
 
-  fetchConfigurationVars = (): Promise<Config> => {
-  return fetch(`${this.baseUrlApi}/configuration?api_key=${this.apiKey}`)
-    .then((response: Response) => {
-      return response.json()
-    })
-}
+  // TODO: Was previously fetching image vars from the API and setting them in
+  // in the constructore, which was slow and made this class impossible to test
+  // Would still like to check API vars, so find a way to do this as part of the
+  // webpack build
+  //
+  // fetchConfigurationVars = (): Promise<Config> => {
+  //   return fetch(`${this.baseUrlApi}/configuration?api_key=${this.apiKey}`)
+  //     .then((response: Response) => {
+  //       return response.json()
+  //     })
+  //     .catch(e => console.log('error', e))
+  // }
 }
 
 export default new ImageService()

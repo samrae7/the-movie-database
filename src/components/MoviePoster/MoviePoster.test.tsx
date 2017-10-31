@@ -7,9 +7,6 @@ const mockImageService: ImageService = {
   baseImageUrl: 'http://baseImageUrl',
   posterSize: 'w555',
   getPosterUrl: jest.fn().mockReturnValue('http://baseImageUrl/w55'),
-  apiKey: 'jjj',
-  baseUrlApi: 'https://api.v3/',
-  fetchConfigurationVars: jest.fn()
 }
 
 const placeholderPath = '/loremipsum.jpg'
