@@ -3,3 +3,24 @@ ul.movie-results {
   padding: 0;
   margin: 0;
 }
+
+@media (max-width: 700px) {
+  ul {
+    display: grid;
+    grid-template-columns: auto;
+  }
+}
+
+@media (min-width: 701px) and (max-width: 1000px) {
+  ul {
+    display: grid;
+    grid-template-columns: auto auto;
+  }
+}
+
+@media (min-width: 1001px) {
+  ul {
+    display: grid;
+    grid-template-columns: auto auto auto;
+  }
+}
