@@ -7,7 +7,7 @@
 
 NB: this project was built using
 
-[Typescript React Stater] (https://github.com/Microsoft/TypeScript-React-Starter)
+[Typescript React Stater](https://github.com/Microsoft/TypeScript-React-Starter)
 
 which is a fork of 
 
