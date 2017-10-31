@@ -1,6 +1,6 @@
 import { Subject } from 'rxjs'
 import { TmdbApi, SearchResult, Movie } from 'tmdb-typescript-api'
-import { Observable } from 'rxjs/Observable';
+import { Observable } from 'rxjs/Observable'
 
 const apiKey = process.env.TMDB_API_KEY_V3 || ''
 
@@ -14,7 +14,7 @@ export class SearchService {
   }
 
   search (term: string) {
-    this.searchTerm.next(term) 
+    this.searchTerm.next(term)
   }
 
   getResults (): Observable<SearchResult<Movie>> {

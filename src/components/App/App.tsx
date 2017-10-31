@@ -33,23 +33,23 @@ class App extends React.Component<IAppProps, IAppState> {
   componentDidMount () {
     this.props.searchService.getResults()
       .subscribe(
-        (m: SearchResult<Movie>) => {
-          this.setState({
-            results: m.results,
-            loading: false
-          })
-        },
-        error => {
-          console.log('error featching movies', error)
-          this.setState({apiError: true})
-        }
+      (m: SearchResult<Movie>) => {
+        this.setState({
+          results: m.results,
+          loading: false
+        })
+      },
+      error => {
+        console.log('error featching movies', error)
+        this.setState({ apiError: true })
+      }
       )
   }
 
   search (searchTerm: string) {
-    this.setState({searchTerm})
+    this.setState({ searchTerm })
     if (searchTerm.length >= 2) {
-      this.setState({loading: true})
+      this.setState({ loading: true })
       this.props.searchService.search(searchTerm.trim())
     } else {
       this.setState({
@@ -69,7 +69,7 @@ class App extends React.Component<IAppProps, IAppState> {
             onChange={(e: React.ChangeEvent<HTMLInputElement>) => this.search(e.target.value)}>
           </input>
         </div>
-        {this.state.searchTerm.length ? 
+        {this.state.searchTerm.length ?
           <MovieResults
             results={this.state.results}
             apiError={this.state.apiError}

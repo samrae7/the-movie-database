@@ -12,7 +12,7 @@ export class ImageService {
   }
 
   // example: https://image.tmdb.org/t/p/w154/6u1fYtxG5eqjhtCPDx04pJphQRW.jpg
-  getPosterUrl(posterPath: string) {
+  getPosterUrl (posterPath: string) {
     return `${this.baseImageUrl}${this.posterSize}${posterPath}`
   }
 

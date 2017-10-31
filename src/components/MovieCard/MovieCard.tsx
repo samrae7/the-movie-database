@@ -19,7 +19,7 @@ export interface IMovieCardState {
 }
 
 export class MovieCard extends React.Component<IMovieCardProps, IMovieCardState> {
-  constructor() {
+  constructor () {
     super()
     this.state = {
       imageLoading: true,
@@ -57,5 +57,3 @@ export class MovieCard extends React.Component<IMovieCardProps, IMovieCardState>
     )
   }
 }
-
-
