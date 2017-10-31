@@ -4,3 +4,12 @@
 - `yarn` from within your project directory to install dependencies
 - `yarn start` to run the developmenet build of the app
 - `yarn test` to run tests
+
+NB: this project was built using
+
+[Typescript React Stater] (https://github.com/Microsoft/TypeScript-React-Starter)
+
+which is a fork of 
+
+[Create React App](https://github.com/facebookincubator/create-react-app).
+
