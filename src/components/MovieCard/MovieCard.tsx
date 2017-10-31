@@ -36,7 +36,7 @@ export class MovieCard extends React.Component<IMovieCardProps, IMovieCardState>
     this.setState({ readMore })
   }
 
-  render() {
+  render () {
     return (
       <li className='movie-card' key={this.props.id}>
         <MovieOverview
