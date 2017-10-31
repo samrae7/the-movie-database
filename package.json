@@ -25,6 +25,7 @@
     "react": "^16.0.0",
     "react-dev-utils": "^4.0.1",
     "react-dom": "^16.0.0",
+    "react-scripts": "1.0.15",
     "react-test-renderer": "^16.0.0",
     "source-map-loader": "^0.2.1",
     "style-loader": "0.18.2",
